@@ -35,6 +35,7 @@ local plugins = {
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
+    event= "VeryLazy",
     config = function()
       local highlight = {
         "RainbowDark",
@@ -55,12 +56,12 @@ local plugins = {
         vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#f9e2af" })
       end)
       require('ibl').setup {
-        show_end_of_line = true,
+        -- show_end_of_line = true,
         scope = {
           enabled = false
         },
-        show_current_context = false,
-        show_current_context_start = false,
+        -- show_current_context = false,
+        -- show_current_context_start = false,
         exclude = {
           filetypes = {
             'neogit'

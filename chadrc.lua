@@ -34,42 +34,41 @@ M.ui = {
   },
 
   statusline = {
-    overriden_modules = function()
-      local st_modules = require "nvchad_ui.statusline.default"
-
-      return {
-        fileInfo = function()
-          local fn = vim.fn
-          local sep = "%#St_file_sep#"
-          local str = st_modules.fileInfo()
-          local parts = {}
-          for match in (str..sep):gmatch("(.-)"..sep) do
-            table.insert(parts, match)
-          end
-          local new_sep_r = string.gsub(parts[2],' %%','')
-          local icon = "  "
-          local filename = (fn.expand "%" == "" and "Empty ") or fn.expand "%:t"
-          local foldername = (fn.expand("%:p:h") == "" and "Empty") or fn.expand("%:p:h:t")
+    theme = "default",
+    overriden_modules = function(modules)
+      -- local st_modules = require "nvchad_ui.statusline.default"
+      modules[2] = (function()
+        local fileInfo = function()
+          local default_sep_icons = {
+            default = { left = "", right = " " },
+            round = { left = "", right = "" },
+            block = { left = "█", right = "█" },
+            arrow = { left = "", right = "" },
+          }
+          local icon = " 󰈚 "
+          local path = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
+          local name = (path == "" and "Empty ") or path:match "^.+[/\\](.+)$"
+          local foldername = (path == "" and "Empty ") or path:match(".+/") and path:match("^.+/(.+)/.+$")
 
           local modified_indicator = ""
           if vim.bo.modified then
-            modified_indicator = " "
+            modified_indicator = " "
           end
 
-          if filename ~= "Empty " then
+          if name ~= "Empty " then
             local devicons_present, devicons = pcall(require, "nvim-web-devicons")
-
             if devicons_present then
-              local ft_icon = devicons.get_icon(filename)
+              local ft_icon = devicons.get_icon(name)
               icon = (ft_icon ~= nil and " " .. ft_icon) or ""
             end
 
-            filename = " " .. foldername .. " -> " .. filename .. modified_indicator .. " "
+            name = " " .. (foldername or "") .. " -> " .. name .. modified_indicator .. " "
           end
 
-          return "%#St_file_info#" .. icon .. filename .. "%#St_file_sep#" .. new_sep_r
+          return "%#St_file_info#" .. icon .. name .. "%#St_file_sep#" .. default_sep_icons.default.right
         end
-      }
+        return fileInfo()
+      end)()
     end
   }
 }
