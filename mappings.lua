@@ -61,6 +61,12 @@ M.general = {
   }
 }
 
+M.dropbar = {
+  n = {
+    ["<leader>db"] = { ":lua require('dropbar.api').pick()<CR>", "Pick dropbar item", opts = { silent = true } },
+  }
+}
+
 M.neogit = {
   n = {
     ["<leader>nn"] = { "<CMD>Neogit<CR>", "Open Neogit in new tab", opts = { silent = true } },
@@ -209,6 +215,15 @@ M.MiniFiles = {
 M.MiniSession = {
   n = {
     ["<leader>msr"] = {':lua MiniSessions.read()<CR>', "Load MiniSession session", opts = { silent = true } }
+  }
+}
+
+M.MiniPick = {
+  n = {
+    ["<leader>mpf"] = {'<CMD>Pick files<CR>', "MiniPick Files", opts = { silent = true } },
+    ["<leader>mpb"] = {'<CMD>Pick buffers<CR>', "MiniPick Buffers", opts = { silent = true } },
+    ["<leader>mpw"] = {'<CMD>Pick grep_live<CR>', "MiniPick Grep Live", opts = { silent = true } },
+    ["<leader>mpr"] = {'<CMD>Pick resume<CR>', "MiniPick Resume", opts = { silent = true } }
   }
 }
 

@@ -34,6 +34,14 @@ M.override = {
 
 ---@type HLTable
 M.add = {
+  MiniPickMatchCurrent = {
+    -- bg = "#f5bde6",
+    -- fg = "black"
+    bg = "#585b70"
+  },
+  MiniPickPreviewLine = {
+    bg = "#585b70"
+  },
   NvimTreeOpenedFolderName = { fg = "green", bold = true },
   OrgAgendaScheduled = {
     fg = "#7dc4e4",

@@ -56,12 +56,9 @@ local plugins = {
         vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#f9e2af" })
       end)
       require('ibl').setup {
-        -- show_end_of_line = true,
         scope = {
           enabled = false
         },
-        -- show_current_context = false,
-        -- show_current_context_start = false,
         exclude = {
           filetypes = {
             'neogit'
@@ -386,6 +383,7 @@ local plugins = {
       require('mini.cursorword').setup()
       require('mini.splitjoin').setup()
       require('mini.sessions').setup()
+      require('mini.pick').setup()
       require('mini.files').setup({
         windows = {
           preview = true,
@@ -530,25 +528,20 @@ local plugins = {
   },
 
   {
-    "utilyre/barbecue.nvim",
-    lazy = false,
-    name = "barbecue",
-    version = "*",
+    'Bekaboo/dropbar.nvim',
+    event = "VeryLazy",
+    -- optional, but required for fuzzy finder support
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      -- configurations go here
-    },
+      'nvim-telescope/telescope-fzf-native.nvim'
+    }
   },
 
   {
-    "liangxianzhe/nap.nvim",
-    enabled = false,
-    lazy = false,
+    'lewis6991/satellite.nvim',
+    event = "VeryLazy",
+    -- optional, but required for fuzzy finder support
     config = function()
-      require("nap").setup()
+      require('satellite').setup()
     end
   },
 
@@ -558,19 +551,6 @@ local plugins = {
     config = function()
       -- require("nap").setup()
     end
-  },
-
-  {
-    'willothy/wezterm.nvim',
-    lazy = false,
-    config = true,
-    -- opts = {
-    --   create_commands = false
-    -- },
-    -- config = function()
-    --   local wezterm = require 'wezterm'
-    --   wezterm.set_tab_title('Test')
-    -- end
   },
 
   {
@@ -902,61 +882,6 @@ local plugins = {
     end
   },
 
-  {
-    "aaditeynair/conduct.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-    config = function()
-      require("telescope").load_extension("conduct")
-      require("conduct").setup({
-        -- define function that you bind to a key in a project config
-        functions = {},
-
-        -- define presets for projects
-        presets = {},
-
-        hooks = {
-          before_session_save = function() end,
-          before_session_load = function() end,
-          after_session_load = function() end,
-          before_project_load = function() end,
-          after_project_load = function()
-            local current_buf = vim.api.nvim_get_current_buf()
-            local current_buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(current_buf), ':p:h')
-            local current_project_root = vim.fn.finddir('.git', current_buf_dir .. ';')
-            if current_project_root == '' then
-              print('No project root found for current buffer')
-              return
-            end
-            current_project_root = vim.fn.fnamemodify(current_project_root, ':h')
-
-            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-              local buf_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ':p:h')
-              local buf_project_root = vim.fn.finddir('.git', buf_dir .. ';')
-              if buf_project_root == '' or vim.fn.fnamemodify(buf_project_root, ':h') ~= current_project_root then
-                vim.api.nvim_buf_delete(buf, { force = true })
-              end
-            end
-          end,
-        }
-      })
-      -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
-    end,
-    cmd = {
-      "ConductNewProject",
-      "ConductLoadProject",
-      "ConductLoadLastProject",
-      "ConductLoadProjectConfig",
-      "ConductReloadProjectConfig",
-      "ConductDeleteProject",
-      "ConductRenameProject",
-      "ConductProjectNewSession",
-      "ConductProjectLoadSession",
-      "ConductProjectDeleteSession",
-      "ConductProjectRenameSession",
-    },
-  },
-
-
   -- Creates a db of my yank history
   {
     "AckslD/nvim-neoclip.lua",
@@ -1101,51 +1026,6 @@ local plugins = {
     event = "VeryLazy",
     lazy = false
   }
-  -- {
-  --   "folke/edgy.nvim",
-  --   event = "VeryLazy",
-  --   keys = {
-  --     -- stylua: ignore
-  --     { "<leader>ue", function() require("edgy").select() end, desc = "Edgy Select Window" },
-  --   },
-  --   opts = {
-  --     left = {
-  --       -- {
-  --       --   title = "Neo-Tree",
-  --       --   ft = "neo-tree",
-  --       --   filter = function(buf)
-  --       --     return vim.b[buf].neo_tree_source == "filesystem"
-  --       --   end,
-  --       --   size = { height = 0.5 },
-  --       -- },
-  --       -- {
-  --       --   title = "Neo-Tree Git",
-  --       --   ft = "neo-tree",
-  --       --   filter = function(buf)
-  --       --     return vim.b[buf].neo_tree_source == "git_status"
-  --       --   end,
-  --       --   pinned = true,
-  --       --   open = "Neotree position=right git_status",
-  --       -- },
-  --       -- {
-  --       --   title = "Neo-Tree Buffers",
-  --       --   ft = "neo-tree",
-  --       --   filter = function(buf)
-  --       --     return vim.b[buf].neo_tree_source == "buffers"
-  --       --   end,
-  --       --   pinned = true,
-  --       --   open = "Neotree position=top buffers",
-  --       -- },
-  --       {
-  --         ft = "Outline",
-  --         pinned = true,
-  --         open = "SymbolsOutline",
-  --       },
-  --       -- "neo-tree",
-  --     },
-  --   },
-  -- }
-
 
   -- To make a plugin not be loaded
 
